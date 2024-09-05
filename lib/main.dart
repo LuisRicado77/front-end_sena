@@ -26,10 +26,18 @@ class _InicioState extends State<Inicio> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("App Sena flutter"),
+        title: Text("App prueba 1"),
       ),
-      body: Center(
-        child: Image.asset('assets/logo.jpeg'), // Aquí defines la ruta
+      body: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+                image: DecorationImage(
+              image: AssetImage("assets/images/muebles.jpeg"),
+              fit: BoxFit.cover,
+            )),
+          )
+        ],
       ),
     );
   }

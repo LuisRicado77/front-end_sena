@@ -18,14 +18,14 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - lib/assets/images/arien.jpeg
-    - lib/assets/images/entrada.jpeg
-    - lib/assets/images/filtro.jpeg
-    - lib/assets/images/login.png
-    - lib/assets/images/logo.jpeg
-    - lib/assets/images/ref.jpeg
-    - lib/assets/images/terreno.jpeg
-    - lib/assets/images/venta.jpeg
-    - lib/assets/images/muebles.jpeg
+    - assets/images/arien.jpeg
+    - assets/images/entrada.jpeg
+    - assets/images/filtro.jpeg
+    - assets/images/login.png
+    - assets/images/logo.jpeg
+    - assets/images/ref.jpeg
+    - assets/images/terreno.jpeg
+    - assets/images/venta.jpeg
+    - assets/images/muebles.jpeg
     
 
