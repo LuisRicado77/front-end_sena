@@ -17,6 +17,15 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Black.ttf
+        - asset: assets/fonts/Poppins-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Poppins-BlackItalic.ttf
+          style: italic
+
   assets:
     - assets/images/arien.jpeg
     - assets/images/entrada.jpeg
@@ -27,5 +36,3 @@ flutter:
     - assets/images/terreno.jpeg
     - assets/images/venta.jpeg
     - assets/images/muebles.jpeg
-    
-

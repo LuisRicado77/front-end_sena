@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(miApp());
+void main() => runApp(const MiApp());
 
-class miApp extends StatelessWidget {
-  const miApp({super.key});
+class MiApp extends StatelessWidget {
+  const MiApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        fontFamily: 'Poppins',
+      ),
       title: "Mi App",
-      home: Inicio(),
+      home: const Inicio(),
     );
   }
 }
@@ -71,18 +74,18 @@ class _InicioState extends State<Inicio> {
 
 Widget cuerpo() {
   return Container(
-    child: Text("crear nueva cuenta"),
+    child: const Text("crear nueva cuenta"),
   );
 }
 
 Widget barra() {
-  return Positioned(
+  return const Positioned(
     child: Text("hola"),
   );
 }
 
 Widget name() {
-  return Stack(
+  return const Stack(
     children: [
       Align(
         alignment: Alignment(
@@ -93,17 +96,19 @@ Widget name() {
             Text(
               "crear nueva",
               style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold),
+                fontFamily: 'Poppins',
+                color: Colors.white,
+                fontSize: 40,
+              ),
             ),
             SizedBox(height: 0), // Espacio entre las líneas
             Text(
               "cuenta",
               style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold),
+                fontFamily: 'Poppins',
+                color: Colors.white,
+                fontSize: 40,
+              ),
             ),
           ],
         ),
