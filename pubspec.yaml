@@ -17,3 +17,15 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - lib/assets/images/arien.jpeg
+    - lib/assets/images/entrada.jpeg
+    - lib/assets/images/filtro.jpeg
+    - lib/assets/images/login.png
+    - lib/assets/images/logo.jpeg
+    - lib/assets/images/ref.jpeg
+    - lib/assets/images/terreno.jpeg
+    - lib/assets/images/venta.jpeg
+    - lib/assets/images/muebles.jpeg
+    
+
