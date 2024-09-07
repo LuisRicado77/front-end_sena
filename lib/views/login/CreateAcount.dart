@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 void main() => runApp(const MiApp());
 
@@ -33,7 +31,7 @@ class _InicioState extends State<Inicio> {
       body: Stack(
         children: [
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage("assets/images/muebles.jpeg"),
                 fit: BoxFit.cover,
@@ -51,9 +49,9 @@ class _InicioState extends State<Inicio> {
                   width: 90, // Ajusta el ancho
                   height: 90, // Ajusta la altura
                 ),
-                SizedBox(height: 1.5),
+                const SizedBox(height: 1.5),
                 // Texto debajo de la imagen
-                Text(
+                const Text(
                   'CASA SINU',
                   style: TextStyle(
                     color: Colors.black, // Cambia según lo que necesites
@@ -92,11 +90,31 @@ class _InicioState extends State<Inicio> {
           Stack(
             children: [
               Positioned(
-                child: name(),
+                child: mainText(),
               ),
               Positioned(
-                child: Password(),
-              )
+                  child: SizedBox(
+                width: 450,
+                child: nombre(),
+              )),
+              Positioned(
+                  child: SizedBox(
+                width: 450,
+                child: email(),
+              )),
+              Positioned(
+                  child: SizedBox(
+                width: 450,
+                child: password(),
+              )),
+              Positioned(
+                child: campos(),
+              ),
+              Positioned(
+                  child: SizedBox(
+                width: 450,
+                child: bottom(),
+              )),
             ],
           ),
         ],
@@ -105,19 +123,7 @@ class _InicioState extends State<Inicio> {
   }
 }
 
-Widget cuerpo() {
-  return Container(
-    child: const Text("crear nueva cuenta"),
-  );
-}
-
-Widget barra() {
-  return const Positioned(
-    child: Text("hola"),
-  );
-}
-
-Widget name() {
+Widget mainText() {
   return const Stack(
     children: [
       Align(
@@ -158,14 +164,14 @@ Widget name() {
 Widget cuadroTexto() {
   return TextField(
     obscureText: true,
-    style: TextStyle(
+    style: const TextStyle(
       color: Colors.white,
     ),
     decoration: InputDecoration(
         filled: true,
         fillColor: Colors.green,
         hintText: "*****************",
-        hintStyle: TextStyle(
+        hintStyle: const TextStyle(
           color: Colors.white,
         ),
         border: OutlineInputBorder(
@@ -174,28 +180,154 @@ Widget cuadroTexto() {
   );
 }
 
-Widget Password() {
+Widget password() {
   return Stack(
     children: [
       Positioned(
-        top: 900, // Aquí puedes ajustar la distancia desde la parte superior
-        left: 20, // Puedes ajustar la distancia desde la izquierda
-        right: 20, // Ajusta para darle espacio desde la derecha si es necesario
+        top: 890, // Aquí puedes ajustar la distancia desde la parte superior
+        left: 40, // Puedes ajustar la distancia desde la izquierda
+        right: 8, // Ajusta para darle espacio desde la derecha si es necesario
         child: TextField(
           obscureText: true,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.white,
           ),
           decoration: InputDecoration(
             filled: true,
-            fillColor: const Color.fromARGB(255, 68, 105, 70),
-            hintText: "*****************",
-            hintStyle: TextStyle(
+            fillColor: const Color(0xff647749),
+            hintText: "",
+            hintStyle: const TextStyle(
               color: Colors.white,
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30.0),
               borderSide: BorderSide.none,
+            ),
+          ),
+        ),
+      ),
+    ],
+  );
+}
+
+Widget nombre() {
+  return Stack(
+    children: [
+      Positioned(
+        top: 670, // Aquí puedes ajustar la distancia desde la parte superior
+        left: 40, // Puedes ajustar la distancia desde la izquierda
+        right: 8, // Ajusta para darle espacio desde la derecha si es necesario
+        child: TextField(
+          obscureText: false,
+          style: const TextStyle(
+            color: Colors.white,
+          ),
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: const Color(0xff647749),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(30.0),
+              borderSide: BorderSide.none,
+            ),
+          ),
+        ),
+      ),
+    ],
+  );
+}
+
+Widget email() {
+  return Stack(
+    children: [
+      Positioned(
+        top: 782, // Aquí puedes ajustar la distancia desde la parte superior
+        left: 40, // Puedes ajustar la distancia desde la izquierda
+        right: 8, // Ajusta para darle espacio desde la derecha si es necesario
+        child: TextField(
+          obscureText: false,
+          style: const TextStyle(
+            color: Colors.white,
+          ),
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: const Color(0xff647749),
+            hintText: "",
+            hintStyle: const TextStyle(
+              color: Colors.white,
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(30.0),
+              borderSide: BorderSide.none,
+            ),
+          ),
+        ),
+      ),
+    ],
+  );
+}
+
+Widget campos() {
+  return const Stack(
+    children: [
+      Positioned(
+          top: 640, // Aquí puedes ajustar la distancia desde la parte superior
+          left: 40, // Puedes ajustar la distancia desde la izquierda
+          right: 20,
+          child: Text(
+            "NOMBRE",
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          )),
+      Positioned(
+          top: 750, // Aquí puedes ajustar la distancia desde la parte superior
+          left: 40, // Puedes ajustar la distancia desde la izquierda
+          right: 20,
+          child: Text(
+            "EMAIL",
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          )),
+      Positioned(
+          top: 860, // Aquí puedes ajustar la distancia desde la parte superior
+          left: 40, // Puedes ajustar la distancia desde la izquierda
+          right: 20,
+          child: Text(
+            "CONTRASEÑA",
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          )),
+    ],
+  );
+}
+
+Widget bottom() {
+  return Stack(
+    children: [
+      Positioned(
+        top: 1000, // Distancia desde la parte superior
+        left: 40, // Distancia desde la izquierda
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              minimumSize: const Size(400, 70),
+              backgroundColor:
+                  const Color(0xff87ba42), // Color de fondo del botón
+              foregroundColor: Colors.white, // Color del texto
+              disabledBackgroundColor:
+                  Colors.grey, // Color cuando el botón está deshabilitado
+
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  side: BorderSide.none)),
+          onPressed: () {
+            print("Botón presionado");
+          },
+          child: const Text(
+            'CREAR',
+            style: TextStyle(
+              fontSize: 20,
             ),
           ),
         ),
