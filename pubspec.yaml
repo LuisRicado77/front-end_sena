@@ -30,7 +30,7 @@ flutter:
     - assets/images/arien.jpeg
     - assets/images/entrada.jpeg
     - assets/images/filtro.jpeg
-    - assets/images/login.png
+    - assets/icons/login.png
     - assets/images/logo.jpeg
     - assets/images/ref.jpeg
     - assets/images/terreno.jpeg
