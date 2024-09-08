@@ -22,7 +22,7 @@ flutter:
       fonts:
         - asset: assets/fonts/Poppins-Black.ttf
         - asset: assets/fonts/Poppins-Bold.ttf
-          weight: 700
+          weight: 300
         - asset: assets/fonts/Poppins-BlackItalic.ttf
           style: italic
 

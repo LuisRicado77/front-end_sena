@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:app_sena/views/login/createAcount.dart';
 
-void main() => runApp(const MiApp());
+void main() => runApp(const Login());
 
-class MiApp extends StatelessWidget {
-  const MiApp({super.key});
+class Login extends StatelessWidget {
+  const Login({super.key});
 
   @override
   Widget build(BuildContext context) {
