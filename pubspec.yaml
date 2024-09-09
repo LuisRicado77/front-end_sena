@@ -31,8 +31,10 @@ flutter:
     - assets/images/entrada.jpeg
     - assets/images/filtro.jpeg
     - assets/icons/login.png
+    - assets/icons/user.png
     - assets/images/logo.jpeg
     - assets/images/ref.jpeg
     - assets/images/terreno.jpeg
     - assets/images/venta.jpeg
     - assets/images/muebles.jpeg
+    - assets/images/seacherwithhouse.png

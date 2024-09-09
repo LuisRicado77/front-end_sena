@@ -1,30 +1,15 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(const MiApp());
+void main() => runApp(const CreateAcount());
 
-class MiApp extends StatelessWidget {
-  const MiApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        fontFamily: 'Poppins',
-      ),
-      title: "Mi App",
-      home: const Inicio(),
-    );
-  }
-}
-
-class Inicio extends StatefulWidget {
-  const Inicio({super.key});
+class CreateAcount extends StatefulWidget {
+  const CreateAcount({super.key});
 
   @override
-  State<Inicio> createState() => _InicioState();
+  State<CreateAcount> createState() => _InicioState();
 }
 
-class _InicioState extends State<Inicio> {
+class _InicioState extends State<CreateAcount> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
