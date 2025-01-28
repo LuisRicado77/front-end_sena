@@ -32,11 +32,16 @@ flutter:
     - assets/images/comprartrasparente.png
     - assets/icons/login.png
     - assets/icons/user.png
+    - assets/icons/heart.png
     - assets/icons/filter.png
     - assets/icons/window.png
     - assets/icons/lupa.png
     - assets/images/logo.jpeg
     - assets/images/housewithman.png
+    - assets/images/casalist1.jpg
+    - assets/images/casalist2.jpg
+    - assets/images/casalist3.jpg
+    - assets/images/casalist4.jpg
     - assets/images/ref.jpeg
     - assets/images/terreno.jpeg
     - assets/images/todotrasparente.png

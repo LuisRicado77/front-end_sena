@@ -1,0 +1,28 @@
+ return MaterialApp(
+      theme: ThemeData(
+        fontFamily: "Poppins",
+      ),
+      title: "MyApp",
+      home: const Inicio(),
+    );
+
+
+    appBar: AppBar(
+      backgroundColor: Color(0xFF87ba42),
+      title: Row(
+        mainAxisAlignment:
+            MainAxisAlignment.spaceBetween, // Distribuye los elementos
+        children: [
+          IconButton(
+            icon: Image.asset(
+              'assets/icons/user.png',
+              fit: BoxFit.contain,
+              height: 50,
+            ),
+
+            // Imagen del botón izquierdo
+            onPressed: () {
+              // Acción del botón izquierdo
+              print("Botón izquierdo presionado");
+            },
+          ),
