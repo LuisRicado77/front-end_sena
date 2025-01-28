@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:app_sena/views/login/createAcount.dart';
 
 void main() => runApp(const Login());
 

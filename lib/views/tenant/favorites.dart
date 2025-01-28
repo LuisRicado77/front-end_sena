@@ -1,4 +1,3 @@
-import 'package:app_sena/main.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const Favorites());
@@ -22,10 +21,10 @@ class Inicio extends StatefulWidget {
   const Inicio({super.key});
 
   @override
-  State<Inicio> createState() => _inicioState();
+  State<Inicio> createState() => _InicioState();
 }
 
-class _inicioState extends State<Inicio> {
+class _InicioState extends State<Inicio> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,10 +67,10 @@ class _inicioState extends State<Inicio> {
             ),
 
             // Posicionamos el texto "data"
-            Positioned(
+            const Positioned(
               top: 20, // Ajustamos para colocarlo debajo de la barra e imagen
               left: 150, // Alineamos con la imagen del usuario
-              child: const Text(
+              child: Text(
                 "Mis favoritos",
                 style: TextStyle(fontSize: 24, color: Colors.black),
               ),
@@ -91,13 +90,13 @@ class _inicioState extends State<Inicio> {
                 ),
               ),
             ),
-            Positioned(
+            const Positioned(
               top: 600, // Ajustamos para colocarlo debajo de la barra e imagen
               left: 40, // Alineamos con la imagen del usuario
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     "no hay favoritos guardados!",
                     style: TextStyle(
                       fontSize: 24,
@@ -105,14 +104,14 @@ class _inicioState extends State<Inicio> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const Text(
+                  Text(
                     "cuando marques un anuncio como ",
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.white,
                     ),
                   ),
-                  const Text(
+                  Text(
                     "favorito lo podrás ver aquí",
                     style: TextStyle(
                       fontSize: 18,
@@ -150,9 +149,7 @@ Widget bottom() {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                   side: BorderSide.none)),
-          onPressed: () {
-            print("Botón presionado");
-          },
+          onPressed: () {},
           child: const Text(
             'Buscar',
             style: TextStyle(

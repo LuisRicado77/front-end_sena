@@ -306,9 +306,7 @@ Widget bottom() {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                   side: BorderSide.none)),
-          onPressed: () {
-            print("Botón presionado");
-          },
+          onPressed: () {},
           child: const Text(
             'CREAR',
             style: TextStyle(
