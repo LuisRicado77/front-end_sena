@@ -1,3 +1,3 @@
-# app_sena
+# RENDING HOUSES
 
-A new Flutter project.
+This is the front-end of our project.
