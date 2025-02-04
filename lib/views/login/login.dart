@@ -1,4 +1,8 @@
+import 'package:app_sena/views/lessor/publicar_propiedad.dart';
+import 'package:app_sena/views/tenant/find_property.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 void main() => runApp(const Login());
 
@@ -25,6 +29,49 @@ class Inicio extends StatefulWidget {
 }
 
 class _InicioState extends State<Inicio> {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  //final TextEditingController _rolController = TextEditingController();
+
+  Future<void> _login() async {
+    const String apiUrl =
+        "http://192.168.101.93:3001/users/login"; // Cambia por tu URL
+
+    try {
+      final response = await http.post(
+        Uri.parse(apiUrl),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({
+          "email": _usernameController.text,
+          "password": _passwordController.text,
+          //"rol": _rolController.text
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        print("Login exitoso: ${data['token']}");
+        final String token = data['token'];
+        final String idRol = data['idRol'];
+        if (idRol == "1") {
+          //lessor
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => const PublicarPropiedad()));
+        } else if (idRol == "2") {
+          //tenant
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => const FindProperty()));
+        }
+
+        // Aquí puedes guardar el token y navegar a otra pantalla
+      } else {
+        print("Error en login: ${response.body}");
+      }
+    } catch (e) {
+      print("Error de conexión: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +92,7 @@ class _InicioState extends State<Inicio> {
               children: [
                 // Imagen del logo
                 Image.asset(
-                  'assets/images/logo.jpeg', // Coloca la ruta correcta de tu logo
+                  'assets/images/edificioverde.png', // Coloca la ruta correcta de tu logo
                   width: 60, // Ajusta el ancho
                   height: 60, // Ajusta la altura
                 ),
@@ -98,17 +145,12 @@ class _InicioState extends State<Inicio> {
                 child: nombre(),
               )),
               Positioned(
-                  child: SizedBox(
-                width: 450,
-                child: password(),
-              )),
-              Positioned(
-                child: campos(),
+                child: campos(_usernameController, _passwordController),
               ),
               Positioned(
                   child: SizedBox(
                 width: 450,
-                child: bottom(),
+                child: bottom(_login),
               )),
               Positioned(
                   child: SizedBox(
@@ -146,73 +188,7 @@ Widget login() {
   );
 }
 
-/*
-Widget barra() {
-  return const Positioned(
-    child: Text("hola"),
-  );
-}
-*/
-/*
-Widget aboveText() {
-  return const Stack(
-    children: [
-      Align(
-        alignment: Alignment(
-            -0.0, -0.1), // Puedes ajustar la alineación según sea necesario
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Text(
-              "crear nueva",
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                color: Colors.white,
-                fontSize: 40,
-              ),
-            ),
-            SizedBox(height: 0), // Espacio entre las líneas
-            Text(
-              "cuenta",
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                color: Colors.white,
-                fontSize: 40,
-              ),
-            ),
-            Text("ya tiene cuenta? inicia sesión",
-                style: TextStyle(
-                    fontFamily: "Poppins",
-                    color: Colors.white,
-                    fontWeight: FontWeight.w100)),
-          ],
-        ),
-      ),
-    ],
-  );
-}
-*/
-/*
-Widget cuadroTexto() {
-  return TextField(
-    obscureText: true,
-    style: const TextStyle(
-      color: Colors.white,
-    ),
-    decoration: InputDecoration(
-        filled: true,
-        fillColor: Colors.green,
-        hintText: "*****************",
-        hintStyle: const TextStyle(
-          color: Colors.white,
-        ),
-        border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30.0),
-            borderSide: BorderSide.none)),
-  );
-}
-*/
-Widget password() {
+Widget password(TextEditingController passwordController) {
   return Stack(
     children: [
       Positioned(
@@ -220,6 +196,7 @@ Widget password() {
         left: 40, // Puedes ajustar la distancia desde la izquierda
         right: 8, // Ajusta para darle espacio desde la derecha si es necesario
         child: TextField(
+          controller: passwordController,
           obscureText: true,
           style: const TextStyle(
             color: Colors.white,
@@ -268,26 +245,60 @@ Widget nombre() {
   );
 }
 
-/*
-Widget email() {
+Widget campos(TextEditingController usernameController,
+    TextEditingController passwordController) {
+  //print(usernameController);
+  //print(passwordController);
   return Stack(
     children: [
+      const Positioned(
+          top: 640,
+          left: 40,
+          right: 20,
+          child: Text(
+            "CORREO",
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          )),
       Positioned(
-        top: 782, // Aquí puedes ajustar la distancia desde la parte superior
-        left: 40, // Puedes ajustar la distancia desde la izquierda
-        right: 8, // Ajusta para darle espacio desde la derecha si es necesario
+        top: 670, // Ajusta la posición según sea necesario
+        left: 40,
+        right: 20,
         child: TextField(
-          obscureText: false,
-          style: const TextStyle(
-            color: Colors.white,
-          ),
+          controller: usernameController,
+          style: const TextStyle(color: Colors.white),
           decoration: InputDecoration(
             filled: true,
             fillColor: const Color(0xff647749),
-            hintText: "",
-            hintStyle: const TextStyle(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(30.0),
+              borderSide: BorderSide.none,
+            ),
+          ),
+        ),
+      ),
+      const Positioned(
+          top: 760,
+          left: 40,
+          right: 20,
+          child: Text(
+            "CONTRASEÑA",
+            style: TextStyle(
               color: Colors.white,
             ),
+          )),
+      Positioned(
+        top: 790,
+        left: 40,
+        right: 20,
+        child: TextField(
+          controller: passwordController,
+          obscureText: true,
+          style: const TextStyle(color: Colors.white),
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: const Color(0xff647749),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30.0),
               borderSide: BorderSide.none,
@@ -298,35 +309,8 @@ Widget email() {
     ],
   );
 }
-*/
-Widget campos() {
-  return const Stack(
-    children: [
-      Positioned(
-          top: 640, // Aquí puedes ajustar la distancia desde la parte superior
-          left: 40, // Puedes ajustar la distancia desde la izquierda
-          right: 20,
-          child: Text(
-            "NOMBRE",
-            style: TextStyle(
-              color: Colors.white,
-            ),
-          )),
-      Positioned(
-          top: 760, // Aquí puedes ajustar la distancia desde la parte superior
-          left: 40, // Puedes ajustar la distancia desde la izquierda
-          right: 20,
-          child: Text(
-            "CONTRASEÑA",
-            style: TextStyle(
-              color: Colors.white,
-            ),
-          )),
-    ],
-  );
-}
 
-Widget bottom() {
+Widget bottom(VoidCallback onPressed) {
   return Stack(
     children: [
       Positioned(
@@ -344,9 +328,7 @@ Widget bottom() {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                   side: BorderSide.none)),
-          onPressed: () {
-            print("Botón presionado");
-          },
+          onPressed: onPressed,
           child: const Text(
             'ingresar',
             style: TextStyle(

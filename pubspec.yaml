@@ -10,6 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_rating_bar: ^4.0.1
+  http: ^1.2.2
 
 dev_dependencies:
   flutter_test:
@@ -37,6 +38,7 @@ flutter:
     - assets/icons/window.png
     - assets/icons/lupa.png
     - assets/images/logo.jpeg
+    - assets/images/edificioverde.png
     - assets/images/housewithman.png
     - assets/images/casalist1.jpg
     - assets/images/casalist2.jpg

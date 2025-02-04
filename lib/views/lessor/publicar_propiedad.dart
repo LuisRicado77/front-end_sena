@@ -29,7 +29,7 @@ class PublicarPropiedad extends StatelessWidget {
                 children: [
                   // Imagen del logo
                   Image.asset(
-                    'assets/images/logo.jpeg',
+                    'assets/images/edificioverde.png',
                     width: 90,
                     height: 90,
                   ),
