@@ -1,0 +1,7 @@
+image: DecorationImage(
+                image: AssetImage("assets/images/muebles.jpeg"),
+                fit: BoxFit.cover,
+              ),
+
+
+color: Colors.grey[800]            
