@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(const PublicarPropiedad());
+void main() => runApp(const MainPageLessor());
 
-class PublicarPropiedad extends StatelessWidget {
-  const PublicarPropiedad({super.key});
+class MainPageLessor extends StatelessWidget {
+  const MainPageLessor({super.key});
 
   @override
   Widget build(BuildContext context) {

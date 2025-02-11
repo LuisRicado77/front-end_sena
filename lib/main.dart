@@ -1,5 +1,6 @@
-import 'package:app_sena/views/lessor/publicar_propiedad.dart';
+import 'package:app_sena/views/lessor/main_page_lessor.dart';
 import 'package:flutter/material.dart';
+import 'package:app_sena/views/lessor/publish_property.dart';
 //import 'package:app_sena/views/login/login.dart';
 import 'package:app_sena/views/estate/more_information.dart';
 import 'package:app_sena/views/tenant/favorites.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
         fontFamily: "Poppins",
       ),
       title: "Mi new App",
-      home: const CreateAcount(),
+      home: const Login(),
     );
   }
 }

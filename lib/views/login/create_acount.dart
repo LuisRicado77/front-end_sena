@@ -169,197 +169,196 @@ class _InicioState extends State<CreateAcount> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-            color: Colors.grey[800],
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(100),
-              child: Column(
-                children: [
-                  const SizedBox(height: 50),
-                  Image.asset(
-                    'assets/images/edificioverde.png',
-                    width: 60,
-                    height: 60,
-                  ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    'CASA SINU',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 50),
-                  const Text(
-                    "names: ",
-                    style: TextStyle(color: Color(0xff87ba42)),
-                  ),
-                  const SizedBox(height: 10),
-                  TextField(
-                    controller: _namesController,
-                    style: TextStyle(color: Colors.black),
-                  ),
-                  const SizedBox(height: 50),
-                  const Text(
-                    "Last Names: ",
-                    style: TextStyle(color: Color(0xff87ba42)),
-                  ),
-                  const SizedBox(height: 10),
-                  TextField(
-                    controller: _lastNamesController,
-                    style: TextStyle(color: Colors.black),
-                  ),
-                  const SizedBox(height: 50),
-                  const Text(
-                    "Email: ",
-                    style: TextStyle(color: Color(0xff87ba42)),
-                  ),
-                  const SizedBox(height: 10),
-                  TextField(
-                    controller: _emailController,
-                    style: TextStyle(color: Colors.black),
-                  ),
-                  const SizedBox(height: 50),
-                  const Text(
-                    "Password: ",
-                    style: TextStyle(color: Color(0xff87ba42)),
-                  ),
-                  const SizedBox(height: 10),
-                  TextFormField(
-                    obscureText: !_passwordVisible,
-                    decoration: InputDecoration(
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _passwordVisible
-                              ? Icons.visibility
-                              : Icons.visibility_off,
-                          color: Theme.of(context).primaryColorDark,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _passwordVisible = !_passwordVisible;
-                          });
-                        },
-                      ),
-                    ),
-                    validator: validatePassword,
-                    controller: _passwordController,
-                    style: const TextStyle(color: Colors.black),
-                  ),
-                  const SizedBox(height: 50),
-                  const Text(
-                    "Confirm Passwrod: ",
-                    style: TextStyle(color: Color(0xff87ba42)),
-                  ),
-                  const SizedBox(height: 10),
-                  TextFormField(
-                    obscureText: !_passwordVisible,
-                    validator: validatePassword,
-                    controller: _passwordConfirmController,
-                    style: TextStyle(color: Colors.black),
-                    decoration: InputDecoration(),
-                  ),
-                  const SizedBox(height: 50),
-                  const Text(
-                    "Phone: ",
-                    style: TextStyle(color: Color(0xff87ba42)),
-                  ),
-                  const SizedBox(height: 10),
-                  TextField(
-                    controller: _phoneController,
-                    style: TextStyle(color: Colors.black),
-                  ),
-                  const SizedBox(height: 50),
-                  const Text(
-                    "Address: ",
-                    style: TextStyle(color: Color(0xff87ba42)),
-                  ),
-                  const SizedBox(height: 10),
-                  TextField(
-                    controller: _addressController,
-                    style: TextStyle(color: Colors.black),
-                  ),
-                  const SizedBox(height: 50),
-                  const Text(
-                    "State: ",
-                    style: TextStyle(color: Color(0xff87ba42)),
-                  ),
-                  const SizedBox(height: 10),
-                  DropdownButton<String>(
-                      value: selectedState,
-                      items: states.map((String state) {
-                        return DropdownMenuItem<String>(
-                            value: state, child: Text(state));
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          selectedState = newValue;
-                          print(selectedState);
-                        });
-                      }),
-                  const SizedBox(height: 50),
-                  const Text(
-                    "City: ",
-                    style: TextStyle(color: Color(0xff87ba42)),
-                  ),
-                  const SizedBox(height: 10),
-                  DropdownButton<String>(
-                      value: selectedCity,
-                      items: cities.map((String state) {
-                        return DropdownMenuItem<String>(
-                            value: state, child: Text(state));
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          selectedCity = newValue;
-                          print(selectedCity);
-                        });
-                      }),
-                  const SizedBox(height: 50),
-                  const Text(
-                    "Rol: ",
-                    style: TextStyle(color: Color(0xff87ba42)),
-                  ),
-                  const SizedBox(height: 10),
-                  DropdownButton<String>(
-                      value: selectedRol,
-                      items: rolesMap.keys.map((String role) {
-                        return DropdownMenuItem<String>(
-                            value: role, child: Text(role));
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          selectedRol = newValue;
-                          selectedRolId = rolesMap[newValue];
-                          print(selectedRolId);
-                        });
-                      }),
-
-                  const SizedBox(height: 30),
-
-                  // Botón de ingresar
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(double.infinity, 70),
-                      backgroundColor: const Color(0xff87ba42),
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        side: BorderSide.none,
-                      ),
-                    ),
-                    onPressed: _register,
-                    child: const Text(
-                      'Crear Cuenta',
-                      style: TextStyle(
-                        fontSize: 30,
-                      ),
-                    ),
-                  ),
-                ],
+        backgroundColor: const Color(0xff545454),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(60),
+          child: Column(
+            children: [
+              const SizedBox(height: 50),
+              Image.asset(
+                'assets/images/edificioverde.png',
+                width: 60,
+                height: 60,
               ),
-            )));
+              const SizedBox(height: 10),
+              const Text(
+                'CASA SINU',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 50),
+              const Text(
+                "names: ",
+                style: TextStyle(color: Color(0xff87ba42)),
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                controller: _namesController,
+                style: const TextStyle(color: Colors.black),
+              ),
+              const SizedBox(height: 50),
+              const Text(
+                "Last Names: ",
+                style: TextStyle(color: Color(0xff87ba42)),
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                controller: _lastNamesController,
+                style: const TextStyle(color: Colors.black),
+              ),
+              const SizedBox(height: 50),
+              const Text(
+                "Email: ",
+                style: TextStyle(color: Color(0xff87ba42)),
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                controller: _emailController,
+                style: TextStyle(color: Colors.black),
+              ),
+              const SizedBox(height: 50),
+              const Text(
+                "Password: ",
+                style: TextStyle(color: Color(0xff87ba42)),
+              ),
+              const SizedBox(height: 10),
+              TextFormField(
+                obscureText: !_passwordVisible,
+                decoration: InputDecoration(
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _passwordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: Theme.of(context).primaryColorDark,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _passwordVisible = !_passwordVisible;
+                      });
+                    },
+                  ),
+                ),
+                validator: validatePassword,
+                controller: _passwordController,
+                style: const TextStyle(color: Colors.black),
+              ),
+              const SizedBox(height: 50),
+              const Text(
+                "Confirm Passwrod: ",
+                style: TextStyle(color: Color(0xff87ba42)),
+              ),
+              const SizedBox(height: 10),
+              TextFormField(
+                obscureText: !_passwordVisible,
+                validator: validatePassword,
+                controller: _passwordConfirmController,
+                style: TextStyle(color: Colors.black),
+                decoration: InputDecoration(),
+              ),
+              const SizedBox(height: 50),
+              const Text(
+                "Phone: ",
+                style: TextStyle(color: Color(0xff87ba42)),
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                controller: _phoneController,
+                style: TextStyle(color: Colors.black),
+              ),
+              const SizedBox(height: 50),
+              const Text(
+                "Address: ",
+                style: TextStyle(color: Color(0xff87ba42)),
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                controller: _addressController,
+                style: TextStyle(color: Colors.black),
+              ),
+              const SizedBox(height: 50),
+              const Text(
+                "State: ",
+                style: TextStyle(color: Color(0xff87ba42)),
+              ),
+              const SizedBox(height: 10),
+              DropdownButton<String>(
+                  value: selectedState,
+                  items: states.map((String state) {
+                    return DropdownMenuItem<String>(
+                        value: state, child: Text(state));
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      selectedState = newValue;
+                      print(selectedState);
+                    });
+                  }),
+              const SizedBox(height: 50),
+              const Text(
+                "City: ",
+                style: TextStyle(color: Color(0xff87ba42)),
+              ),
+              const SizedBox(height: 10),
+              DropdownButton<String>(
+                  value: selectedCity,
+                  items: cities.map((String state) {
+                    return DropdownMenuItem<String>(
+                        value: state, child: Text(state));
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      selectedCity = newValue;
+                      print(selectedCity);
+                    });
+                  }),
+              const SizedBox(height: 50),
+              const Text(
+                "Rol: ",
+                style: TextStyle(color: Color(0xff87ba42)),
+              ),
+              const SizedBox(height: 10),
+              DropdownButton<String>(
+                  value: selectedRol,
+                  items: rolesMap.keys.map((String role) {
+                    return DropdownMenuItem<String>(
+                        value: role, child: Text(role));
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      selectedRol = newValue;
+                      selectedRolId = rolesMap[newValue];
+                      print(selectedRolId);
+                    });
+                  }),
+
+              const SizedBox(height: 30),
+
+              // Botón de ingresar
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(double.infinity, 70),
+                  backgroundColor: const Color(0xff87ba42),
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    side: BorderSide.none,
+                  ),
+                ),
+                onPressed: _register,
+                child: const Text(
+                  'Crear Cuenta',
+                  style: TextStyle(
+                    fontSize: 30,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 }
 

@@ -1,4 +1,4 @@
-import 'package:app_sena/views/lessor/publicar_propiedad.dart';
+import 'package:app_sena/views/lessor/main_page_lessor.dart';
 import 'package:app_sena/views/login/create_acount.dart';
 import 'package:app_sena/views/login/forget_password.dart';
 import 'package:app_sena/views/tenant/find_property.dart';
@@ -67,8 +67,8 @@ class _InicioState extends State<Inicio> {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text("Access granted")),
           );
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => const PublicarPropiedad()));
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => const MainPageLessor()));
         } else if (idRol == 1) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text("Access granted")),
@@ -117,8 +117,11 @@ class _InicioState extends State<Inicio> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20.0),
+      backgroundColor: const Color(0xff545454),
+      body:
+          //color: const Color(0xff87ba42),
+          SingleChildScrollView(
+        padding: const EdgeInsets.all(60),
         child: Column(
           children: [
             // Logo y título
