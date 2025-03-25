@@ -11,6 +11,9 @@ dependencies:
     sdk: flutter
   flutter_rating_bar: ^4.0.1
   http: ^1.2.2
+  http_parser: ^4.0.2
+  image_picker: ^1.1.2
+  shared_preferences: ^2.5.2
 
 dev_dependencies:
   flutter_test:

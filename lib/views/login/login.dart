@@ -1,5 +1,5 @@
 import 'package:app_sena/views/lessor/main_page_lessor.dart';
-import 'package:app_sena/views/login/create_acount.dart';
+import 'package:app_sena/views/login/create_account.dart';
 import 'package:app_sena/views/login/forget_password.dart';
 import 'package:app_sena/views/tenant/find_property.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +43,7 @@ class _InicioState extends State<Inicio> {
   final TextEditingController _passwordController = TextEditingController();
 
   Future<void> _login() async {
-    const String apiUrl = "http://192.168.101.93:3001/users/login";
+    const String apiUrl = "http://192.168.101.100:3001/users/login";
 
     try {
       final response = await http.post(
@@ -90,7 +90,7 @@ class _InicioState extends State<Inicio> {
   Future<void> _crearCuenta() async {
     try {
       Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => const CreateAcount()));
+          .push(MaterialPageRoute(builder: (context) => const CreateAccount()));
     } catch (e) {
       print("Error de conexión: $e");
     }

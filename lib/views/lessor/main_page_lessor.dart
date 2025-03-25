@@ -1,3 +1,5 @@
+import 'package:app_sena/views/lessor/my_properties.dart';
+import 'package:app_sena/views/lessor/publish_property.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const MainPageLessor());
@@ -74,23 +76,33 @@ class MainPageLessor extends StatelessWidget {
             ),
             // Botones
             Positioned(
+              top: 550,
+              left: 45,
+              child: bottom(context,"Publicar propiedad"),
+            ),
+            Positioned(
               top: 650,
               left: 45,
-              child: bottom("Publicar propiedad"),
+              child: bottom(context,"Mis propiedades"),
             ),
             Positioned(
-              top: 820,
+              top: 750,
               left: 45,
-              child: bottom("Mis propiedades"),
+              child: bottom(context,"Solicitudes"),
             ),
             Positioned(
-              top: 990,
+              top: 850,
               left: 45,
-              child: bottom("Compradores"),
+              child: bottom(context,"Notificaciones"),
+            ),
+            Positioned(
+              top: 950,
+              left: 45,
+              child: bottom(context,"Mensajes"),
             ),
             Positioned(
               top:
-                  500, // Ajustamos para darle más margen desde la parte superior
+                  410, // Ajustamos para darle más margen desde la parte superior
               left: 150, // Añadimos más espacio desde la izquierda
               child: Container(
                 height: 100, // Altura de la imagen
@@ -110,7 +122,7 @@ class MainPageLessor extends StatelessWidget {
   }
 }
 
-Widget bottom(String mensaje) {
+Widget bottom(BuildContext context,String mensaje) {
   return ElevatedButton(
     style: ElevatedButton.styleFrom(
       minimumSize: const Size(400, 70),
@@ -124,6 +136,29 @@ Widget bottom(String mensaje) {
     ),
     onPressed: () {
       print("Botón presionado: $mensaje");
+      if(mensaje == "Publicar propiedad"){      
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const PublishProperty()));
+      }else if(mensaje == "Mis propiedades"){
+          Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const MyProperties()));
+      }else if(mensaje == "Solicitudes"){
+          Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const PublishProperty()));
+      }else if(mensaje == "Notificaciones"){
+          Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const PublishProperty()));
+      }else if(mensaje == "Mensajes"){
+          Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const PublishProperty()));
+      }else{
+        print("nothing");
+      }
     },
     child: Text(
       mensaje,

@@ -4,16 +4,16 @@ import 'package:app_sena/views/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-void main() => runApp(const CreateAcount());
+void main() => runApp(const CreateAccount());
 
-class CreateAcount extends StatefulWidget {
-  const CreateAcount({super.key});
+class CreateAccount extends StatefulWidget {
+  const CreateAccount({super.key});
 
   @override
-  State<CreateAcount> createState() => _InicioState();
+  State<CreateAccount> createState() => _InicioState();
 }
 
-class _InicioState extends State<CreateAcount> {
+class _InicioState extends State<CreateAccount> {
   String? selectedRol;
   int? selectedRolId;
   String? selectedState;
@@ -30,8 +30,7 @@ class _InicioState extends State<CreateAcount> {
   final TextEditingController _lastNamesController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _passwordConfirmController =
-      TextEditingController();
+  final TextEditingController _passwordConfirmController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   // final TextEditingController _cityController = TextEditingController();
@@ -131,7 +130,7 @@ class _InicioState extends State<CreateAcount> {
   ];
 
   Future<void> _createUser() async {
-    const String apiUrl = "http://192.168.101.93:3001/users";
+    const String apiUrl = "http://192.168.195.124:3001/users";
     try {
       final response = await http.post(Uri.parse(apiUrl),
           headers: {"Content-Type": "application/json"},

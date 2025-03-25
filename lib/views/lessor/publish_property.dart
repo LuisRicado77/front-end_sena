@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
-
+import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 
 void main() => runApp(const PublishProperty());
 
@@ -15,25 +17,34 @@ class PublishProperty extends StatefulWidget {
 
 class _PublishPropertyState extends State<PublishProperty> {
   final _formKey = GlobalKey<FormState>();
+  final picker = ImagePicker();
+
+  List<File> _images = [];
+
+  Future<void> pickImages() async {
+    final List<XFile>? pickedFiles = await picker.pickMultiImage();
+
+    if (pickedFiles != null && pickedFiles.isNotEmpty) {
+      setState(() {
+        _images = pickedFiles.map((file) => File(file.path)).toList();
+      });
+    }
+  }
 
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
-  //final TextEditingController _cityController = TextEditingController();
-  //final TextEditingController _stateController = TextEditingController();
   final TextEditingController _countryController = TextEditingController();
   final TextEditingController _numberBathroomsController =
       TextEditingController();
   final TextEditingController _numberRoomsController = TextEditingController();
   final TextEditingController squareMetersController = TextEditingController();
   final TextEditingController _statusController = TextEditingController();
-  final TextEditingController _pictureController = TextEditingController();
 
   String? selectedType;
-  String? selected;
   String? selectedState;
-  String? selectedCity; // "Rent" or "Sale"
+  String? selectedCity;
   final List<String> propertyTypes = ["Rent", "Sale"];
 
   final List<String> states = [
@@ -97,9 +108,8 @@ class _PublishPropertyState extends State<PublishProperty> {
     "Quibdó",
     "Riohacha",
     "San Andrés",
-    " San José del Guaviare",
-    "San José de Cúcuta",
-    " Santa Marta",
+    "San José del Guaviare",
+    "Santa Marta",
     "Sincelejo",
     "Tunja",
     "Valledupar",
@@ -107,76 +117,164 @@ class _PublishPropertyState extends State<PublishProperty> {
     "Yopal"
   ];
 
+  Future<List<String>> uploadImages(List<File> images) async {
+    const String uploadUrl = "http://192.168.101.100:3001/upload";
+    var request = http.MultipartRequest('POST', Uri.parse(uploadUrl));
+
+    for (var image in images) {
+      String mimeType = getMimeType(
+          image.path); // Función auxiliar para obtener el tipo de archivo
+
+      request.files.add(
+        await http.MultipartFile.fromPath(
+          'images',
+          image.path,
+          contentType: MediaType.parse(
+              mimeType), // Asegura que se envía el tipo correcto
+        ),
+      );
+    }
+
+    var response = await request.send();
+    print("Código de estado: ${response.statusCode}");
+
+    if (response.statusCode == 200) {
+      final responseData = jsonDecode(await response.stream.bytesToString());
+      print("Respuesta del servidor: $responseData");
+
+      return List<String>.from(
+          responseData['imageUrls']); // Asegura que 'imageUrls' es una lista
+    } else {
+      print(
+          "Error en la subida de imágenes: ${await response.stream.bytesToString()}");
+      throw Exception("Error al subir imágenes");
+    }
+  }
+
+// Función auxiliar para obtener el MIME type correcto basado en la extensión
+  String getMimeType(String filePath) {
+    String extension = filePath.split('.').last.toLowerCase();
+    switch (extension) {
+      case 'jpg':
+      case 'jpeg':
+        return 'image/jpeg';
+      case 'png':
+        return 'image/png';
+      default:
+        return 'application/octet-stream'; // Si no se reconoce, se usa por defecto
+    }
+  }
+
   Future<void> _publishProperty() async {
-    try {
-      const String apiUrl = "http://192.168.101.93:3001/properties";
-      final response = await http.post(Uri.parse(apiUrl),
+    if (_formKey.currentState!.validate()) {
+      try {
+        var bathrooms = _numberBathroomsController.text;
+        var rooms = _numberRoomsController.text;
+        var price = _priceController.text;
+
+        var nPrice = int.tryParse(price) ?? 0;
+        var nRooms = int.tryParse(rooms) ?? 0;
+        var nBathrooms = int.tryParse(bathrooms) ?? 0;
+
+        print(
+            'Tipo de selectedType: ${selectedType.runtimeType}'); // ¿Es String o int?
+        print('Tipo de selectedCity: ${selectedCity.runtimeType}');
+        print('Tipo de selectedState: ${selectedState.runtimeType}');
+        print(
+            'Tipo de squareMeters: ${squareMetersController.text.runtimeType}');
+        print("rpice: ${nPrice.runtimeType}");
+        print("rooms:${nRooms.runtimeType}");
+        print("bathrooms_ ${nBathrooms.runtimeType}");
+        print("title: ${_titleController.text.runtimeType}");
+        print("address: ${_addressController.text.runtimeType}");
+        print("country: ${_countryController.text.runtimeType}");
+        print("status: ${_statusController.text.runtimeType}");
+        print("descripcion: ${_descriptionController.text.runtimeType}");
+
+        // Debugging: Print the values to verify they are correct
+        print('Price: $nPrice');
+        print('Rooms: $nRooms');
+        print('Bathrooms: $nBathrooms');
+        print("good: $selectedType");
+
+        // Validate that the values are not null
+        if (nPrice == null || nRooms == null || nBathrooms == null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+                content: Text(
+                    "Please enter valid numbers for price, rooms, and bathrooms")),
+          );
+          return;
+        }
+        const String apiUrl = "http://192.168.101.100:3001/properties";
+        List<String> imageUrls = await uploadImages(_images);
+        print("Resultado de uploadImages: $imageUrls");
+
+        print("images: ${imageUrls.runtimeType}");
+
+        final response = await http.post(
+          Uri.parse(apiUrl),
           headers: {"Content-Type": "application/json"},
           body: jsonEncode({
             "title": _titleController.text,
-            "propertyType": selectedType,
+            "typeProperty": selectedType,
             "address": _addressController.text,
             "city": selectedCity,
             "state": selectedState,
-            "country": selectedState,
-            "numberRooms": _numberRoomsController.text,
-            "numberBathrooms": _numberBathroomsController.text,
+            "country": _countryController.text,
+            "numberRooms": nRooms,
+            "numberBathrooms": nBathrooms,
             "squareMeters": squareMetersController.text,
-            "rentalPrice": _priceController.text,
+            "rentalPrice": nPrice,
             "status": _statusController.text,
             "description": _descriptionController.text,
-            "pictures": _pictureController.text
-          }));
+            "images": imageUrls ?? "no images"
+          }),
+        );
 
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        print("user publish with success");
+        if (response.statusCode == 200) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Property Created Successfully")),
+          );
+          _formKey.currentState!.reset();
+          setState(() => _images.clear());
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Failed to create property")),
+          );
+        }
+      } catch (e) {
+        print(e);
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Property Created")),
+          SnackBar(content: Text("Error: $e")),
         );
-        Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => const PublishProperty()));
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Empty fields")),
-        );
-        print("There is a error in the database");
       }
-    } catch (e) {
-      print(e);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueAccent,
-      appBar: AppBar(title: Text("Add Property")),
+      appBar: AppBar(title: const Text("Add Property")),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Form(
           key: _formKey,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildTextField("Title", _titleController),
               _buildDropdown("Type", propertyTypes, (value) {
-                setState(() {
-                  selectedType = value;
-                });
+                setState(() => selectedType = value);
               }),
               _buildTextField("Price", _priceController,
                   keyboardType: TextInputType.number),
+              _buildTextField("Status", _statusController),
               _buildTextField("Country", _countryController),
-              _buildDropdown("State", states, (value2) {
-                setState(() {
-                  selectedState = value2;
-                });
+              _buildDropdown("State", states, (value) {
+                setState(() => selectedState = value);
               }),
-              _buildDropdown("City", cities, (value3) {
-                setState(() {
-                  selectedCity = value3;
-                });
+              _buildDropdown("City", cities, (value) {
+                setState(() => selectedCity = value);
               }),
               _buildTextField("Address", _addressController),
               _buildTextField("Number of Rooms", _numberRoomsController,
@@ -185,14 +283,32 @@ class _PublishPropertyState extends State<PublishProperty> {
                   keyboardType: TextInputType.number),
               _buildTextField("Description", _descriptionController,
                   maxLines: 3),
-              SizedBox(height: 20),
+              const SizedBox(height: 10),
               ElevatedButton(
-                onPressed: _submitForm,
-                child: Text("Publish Property"),
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: 20),
-                  textStyle: TextStyle(fontSize: 18),
-                ),
+                onPressed: pickImages,
+                child: const Text("Select Images"),
+              ),
+              const SizedBox(height: 10),
+              _images.isNotEmpty
+                  ? GridView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        crossAxisSpacing: 4,
+                        mainAxisSpacing: 4,
+                      ),
+                      itemCount: _images.length,
+                      itemBuilder: (context, index) {
+                        return Image.file(_images[index], fit: BoxFit.cover);
+                      },
+                    )
+                  : const Text("No images selected"),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: _publishProperty,
+                child: const Text("Publish Property"),
               ),
             ],
           ),
@@ -201,7 +317,6 @@ class _PublishPropertyState extends State<PublishProperty> {
     );
   }
 
-  // Widget para un campo de texto
   Widget _buildTextField(String label, TextEditingController controller,
       {TextInputType keyboardType = TextInputType.text, int maxLines = 1}) {
     return Padding(
@@ -229,7 +344,6 @@ class _PublishPropertyState extends State<PublishProperty> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: DropdownButtonFormField<String>(
-        value: selected,
         decoration: InputDecoration(
           labelText: label,
           border: const OutlineInputBorder(),
@@ -244,15 +358,5 @@ class _PublishPropertyState extends State<PublishProperty> {
         validator: (value) => value == null ? "Please select $label" : null,
       ),
     );
-  }
-
-  // Enviar formulario
-  void _submitForm() {
-    if (_formKey.currentState!.validate()) {
-      print("Property Added: ${_titleController.text}, Type: $selectedType");
-      _publishProperty;
-      // Aquí podrías enviar los datos a tu backend
-    }
-    ;
   }
 }
