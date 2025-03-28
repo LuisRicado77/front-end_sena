@@ -1,5 +1,8 @@
+import 'package:app_sena/views/lessor/messages.dart';
 import 'package:app_sena/views/lessor/my_properties.dart';
+import 'package:app_sena/views/lessor/notifications.dart';
 import 'package:app_sena/views/lessor/publish_property.dart';
+import 'package:app_sena/views/lessor/request.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const MainPageLessor());
@@ -147,15 +150,15 @@ Widget bottom(BuildContext context,String mensaje) {
       }else if(mensaje == "Solicitudes"){
           Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const PublishProperty()));
+          MaterialPageRoute(builder: (context) => const RequestView()));
       }else if(mensaje == "Notificaciones"){
           Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const PublishProperty()));
+          MaterialPageRoute(builder: (context) => const NotificationsView()));
       }else if(mensaje == "Mensajes"){
           Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const PublishProperty()));
+          MaterialPageRoute(builder: (context) => const MessagesView()));
       }else{
         print("nothing");
       }

@@ -1,8 +1,8 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+
 
 void main() => runApp(const MyProperties());
 
@@ -14,35 +14,52 @@ class MyProperties extends StatefulWidget {
 }
 
 class _MyPropertiesState extends State<MyProperties> {
+
+  int? userId;
+  int? rolId;
   List<Map<String, dynamic>> properties = [];
   bool isLoading = true;
   @override
   void initState() {
     super.initState();
+     loadUserData();
     print("Iniciando fetchProperties...");
-    fetchProperties(); // Llama a la API al iniciar la pantalla
+    fetchProperties();
+   
      
   }
 
-  Future<void> saveUserData(String token, String idUser) async {
-  final prefs = await SharedPreferences.getInstance();
-  await prefs.setString('token', token);
-  await prefs.setString('idUser', idUser);
-}
+Future<void> loadUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userId = prefs.getInt('idUser');
+      rolId = prefs.getInt('idRol');
+      print(userId);
+      print(rolId);
+    });
+    if (userId != null) {
+    fetchProperties(); // Solo se ejecuta cuando ya tienes el userId
+  } else {
+    print("Error: No hay idUser guardado en SharedPreferences");
+  }
+  }
 
 
 
   Future<void> fetchProperties() async {
     try {
-    final prefs = await SharedPreferences.getInstance();
-    final String? idUser = prefs.getString('idUser');  // ← Obtener idUser guardado
-    print('ID del usuario: $idUser');
-    if (idUser == null) {
+      final String idUser;
+    if(userId == null) {
       print('Error: No hay idUser guardado');
       return;
+    }else{
+       idUser = userId.toString();
     }
+    print('http://192.168.101.100:3001/properties/lessor/$userId');
+    print('http://192.168.101.100:3001/properties/lessor/$idUser');
+    
       final response =
-          await http.get(Uri.parse('http://192.168.101.100:3001/properties/lessor/$idUser'));
+          await http.get(Uri.parse('http://192.168.101.100:3001/properties/lessor/$userId'));;
 
       if (response.statusCode == 200) {
         final List<dynamic> data = jsonDecode(response.body);
@@ -130,12 +147,47 @@ class PropertyDetailScreen extends StatelessWidget {
             Text(property['title'],
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
             SizedBox(height: 10),
-            Text('Precio: \$${property['price']}',
+            Text('Type: \ ${property['typeProperty']}',
+                style: TextStyle(fontSize: 18)),
+                SizedBox(height: 10),
+            Text('Address: \ ${property['address']}',
+                style: TextStyle(fontSize: 18)),
+                SizedBox(height: 10),
+            Text('City: \ ${property['city']}',
+                style: TextStyle(fontSize: 18)),
+                SizedBox(height: 10),
+            Text('State: \ ${property['state']}',
+                style: TextStyle(fontSize: 18)),
+                SizedBox(height: 10),
+            Text('Country: \$${property['conutry']}',
+                style: TextStyle(fontSize: 18)),
+                 SizedBox(height: 10),
+            Text('Zip Code: \ ${property['zipcode']}',
+                style: TextStyle(fontSize: 18)),
+                 SizedBox(height: 10),
+            Text('Rooms: \ ${property['numberRooms']}',
+                style: TextStyle(fontSize: 18)),
+                 SizedBox(height: 10),
+            Text('Bathrooms: \ ${property['numberBathrooms']}',
+                style: TextStyle(fontSize: 18)),
+                 SizedBox(height: 10),
+            Text('Square Meters: \ ${property['squareMeters']}',
+                style: TextStyle(fontSize: 18)),
+                 SizedBox(height: 10),
+            Text('Precio: \$${property['rentalPrice']}',
+                style: TextStyle(fontSize: 18)),
+                 SizedBox(height: 10),
+            Text('Imagenes: \ ${property['images']}',
                 style: TextStyle(fontSize: 18)),
             SizedBox(height: 10),
             Text('Detalles:',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            Text(property['details'], style: TextStyle(fontSize: 16)),
+            Text(property['description'], style: TextStyle(fontSize: 16)),
+             SizedBox(height: 10),
+            Text('Status:',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            Text(property['status'], style: TextStyle(fontSize: 16)),
+            
           ],
         ),
       ),

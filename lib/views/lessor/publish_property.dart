@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(const PublishProperty());
 
@@ -16,6 +17,14 @@ class PublishProperty extends StatefulWidget {
 }
 
 class _PublishPropertyState extends State<PublishProperty> {
+  int? userId;
+  int? rolId;
+
+  @override
+  void initState() {
+    super.initState();
+    loadUserData();
+  }
   final _formKey = GlobalKey<FormState>();
   final picker = ImagePicker();
 
@@ -36,8 +45,7 @@ class _PublishPropertyState extends State<PublishProperty> {
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _countryController = TextEditingController();
-  final TextEditingController _numberBathroomsController =
-      TextEditingController();
+  final TextEditingController _numberBathroomsController = TextEditingController();
   final TextEditingController _numberRoomsController = TextEditingController();
   final TextEditingController squareMetersController = TextEditingController();
   final TextEditingController _statusController = TextEditingController();
@@ -117,6 +125,15 @@ class _PublishPropertyState extends State<PublishProperty> {
     "Yopal"
   ];
 
+
+  Future<void> loadUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userId = prefs.getInt('idUser');
+      rolId = prefs.getInt('idRol');
+    });
+  }
+
   Future<List<String>> uploadImages(List<File> images) async {
     const String uploadUrl = "http://192.168.101.100:3001/upload";
     var request = http.MultipartRequest('POST', Uri.parse(uploadUrl));
@@ -142,8 +159,7 @@ class _PublishPropertyState extends State<PublishProperty> {
       final responseData = jsonDecode(await response.stream.bytesToString());
       print("Respuesta del servidor: $responseData");
 
-      return List<String>.from(
-          responseData['imageUrls']); // Asegura que 'imageUrls' es una lista
+       return List<String>.from(responseData);
     } else {
       print(
           "Error en la subida de imágenes: ${await response.stream.bytesToString()}");
@@ -176,12 +192,10 @@ class _PublishPropertyState extends State<PublishProperty> {
         var nRooms = int.tryParse(rooms) ?? 0;
         var nBathrooms = int.tryParse(bathrooms) ?? 0;
 
-        print(
-            'Tipo de selectedType: ${selectedType.runtimeType}'); // ¿Es String o int?
+        print('Tipo de selectedType: ${selectedType.runtimeType}'); // ¿Es String o int?
         print('Tipo de selectedCity: ${selectedCity.runtimeType}');
         print('Tipo de selectedState: ${selectedState.runtimeType}');
-        print(
-            'Tipo de squareMeters: ${squareMetersController.text.runtimeType}');
+        print('Tipo de squareMeters: ${squareMetersController.text.runtimeType}');
         print("rpice: ${nPrice.runtimeType}");
         print("rooms:${nRooms.runtimeType}");
         print("bathrooms_ ${nBathrooms.runtimeType}");
@@ -208,6 +222,9 @@ class _PublishPropertyState extends State<PublishProperty> {
         }
         const String apiUrl = "http://192.168.101.100:3001/properties";
         List<String> imageUrls = await uploadImages(_images);
+        if (imageUrls.isEmpty) {
+          imageUrls = ["default_image_url"];
+        }
         print("Resultado de uploadImages: $imageUrls");
 
         print("images: ${imageUrls.runtimeType}");
@@ -224,11 +241,12 @@ class _PublishPropertyState extends State<PublishProperty> {
             "country": _countryController.text,
             "numberRooms": nRooms,
             "numberBathrooms": nBathrooms,
+            "idLessor": userId,
             "squareMeters": squareMetersController.text,
             "rentalPrice": nPrice,
             "status": _statusController.text,
             "description": _descriptionController.text,
-            "images": imageUrls ?? "no images"
+            "images": imageUrls.toString()
           }),
         );
 
@@ -236,6 +254,8 @@ class _PublishPropertyState extends State<PublishProperty> {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text("Property Created Successfully")),
           );
+          print("Código de estado: ${response.statusCode}");
+
           _formKey.currentState!.reset();
           setState(() => _images.clear());
         } else {

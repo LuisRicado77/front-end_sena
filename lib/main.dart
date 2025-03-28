@@ -9,17 +9,13 @@ import 'package:app_sena/views/login/create_account.dart';
 import 'package:app_sena/views/tenant/find_property.dart';
 //import 'package:app_sena/views/tenant/test.dart';
 import 'package:app_sena/views/tools/description.dart';
-
-
 import 'package:http/http.dart' as http;
-import 'package:app_sena/views/login/login.dart';
+import 'package:app_sena/views/login/login.dart';                                       
 
 void main() => runApp(const MyApp());
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  @override
+  @override                                        
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(

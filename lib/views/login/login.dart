@@ -5,6 +5,7 @@ import 'package:app_sena/views/tenant/find_property.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(const Login());
 
@@ -42,7 +43,7 @@ class _InicioState extends State<Inicio> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  Future<void> _login() async {
+  Future<void> _login(String email, String password) async {
     const String apiUrl = "http://192.168.101.100:3001/users/login";
 
     try {
@@ -50,20 +51,29 @@ class _InicioState extends State<Inicio> {
         Uri.parse(apiUrl),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({
-          "email": _usernameController.text,
-          "password": _passwordController.text,
+          "email": email,
+          "password": password,
         }),
       );
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
+        print("Datos recibidos del servidor: $data");
+        int userId = data['idUser'] ?? 0; // ID del usuario
+        int rolId = data['idRol'] ?? 0; // ID del rol
+        print("Usuario ID: $userId, Rol ID: $rolId");
+        // Guardar en SharedPreferences
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setInt('idUser', userId);
+        await prefs.setInt('idRol', rolId);
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Access granted")),
         );
         print("Login exitoso: ${data['token']}");
         //final String token = data['token'];
         final int idRol = data['idRol'];
-        if (idRol == 2) {
+
+        if (rolId == 2) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text("Access granted")),
           );
@@ -85,6 +95,19 @@ class _InicioState extends State<Inicio> {
     } catch (e) {
       print("Error de conexión: $e");
     }
+  }
+
+  Future<Map<String, String?>> getUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int? userId = prefs.getInt('idUser');
+    int? rolId = prefs.getInt('idRol');
+
+    print("Recuperado - Usuario ID: $userId, Rol ID: $rolId");
+
+    return {
+      'idUser': userId.toString(),
+      'idRol': rolId.toString(),
+    };
   }
 
   Future<void> _crearCuenta() async {
@@ -210,7 +233,8 @@ class _InicioState extends State<Inicio> {
                   side: BorderSide.none,
                 ),
               ),
-              onPressed: _login,
+              onPressed: () =>
+                  _login(_usernameController.text, _passwordController.text),
               child: const Text(
                 'INGRESAR',
                 style: TextStyle(
